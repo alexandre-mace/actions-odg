@@ -12,7 +12,7 @@ export default function Home() {
           Actions Climat : Visualisation des Impacts
         </h1>
         <p className="text-lg text-gray-600">
-          Découvrez l'impact des actions climatiques aux échelles individuelle et nationale
+          Découvrez l&apos;impact des actions climatiques aux échelles individuelle et nationale
         </p>
       </div>
 
