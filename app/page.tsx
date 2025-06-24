@@ -1,103 +1,128 @@
-import Image from "next/image";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { ClimateChart } from "@/components/climate-chart"
+import { individualActions, nationalActions } from "@/lib/climate-data"
+import { Leaf, Globe, ExternalLink } from "lucide-react"
 
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <main className="container mx-auto px-4 py-8">
+      <div className="text-center mb-8">
+        <h1 className="text-4xl font-bold text-black mb-2">
+          Actions Climat : Visualisation des Impacts
+        </h1>
+        <p className="text-lg text-gray-600">
+          Découvrez l'impact des actions climatiques aux échelles individuelle et nationale
+        </p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
+      <Tabs defaultValue="individual" className="w-full">
+        <TabsList className="grid w-full grid-cols-2 mb-8 h-14">
+          <TabsTrigger value="individual" className="flex items-center gap-2 text-base py-3">
+            <Leaf className="w-5 h-5" />
+            Échelle individuelle
+          </TabsTrigger>
+          <TabsTrigger value="national" className="flex items-center gap-2 text-base py-3">
+            <Globe className="w-5 h-5" />
+            Échelle nationale
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="individual">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Leaf className="w-5 h-5 text-green-600" />
+                Actions individuelles pour le climat
+              </CardTitle>
+              <CardDescription>
+                Impact des gestes quotidiens sur vos émissions de CO₂ (tonnes par an)
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ClimateChart 
+                data={individualActions}
+                title="Top 10 des actions individuelles les plus impactantes"
+                color="#16a34a"
+              />
+              <div className="mt-6 p-4 bg-green-50 rounded-lg">
+                <p className="text-sm text-green-800">
+                  <strong>💡 Le saviez-vous ?</strong> Un Français émet en moyenne 9 tonnes de CO₂ par an. 
+                  En combinant ces actions, vous pourriez réduire vos émissions de plus de 50% !
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="national">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe className="w-5 h-5 text-blue-600" />
+                Actions nationales pour le climat
+              </CardTitle>
+              <CardDescription>
+                Impact des politiques publiques sur les émissions nationales (millions de tonnes CO₂ par an)
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <ClimateChart 
+                data={nationalActions}
+                title="Top 10 des actions nationales les plus impactantes"
+                color="#2563eb"
+              />
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg">
+                <p className="text-sm text-blue-800">
+                  <strong>🏛️ Contexte :</strong> La France émet environ 400 millions de tonnes de CO₂ par an. 
+                  Ces mesures structurelles pourraient réduire nos émissions nationales de plus de 60% !
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      <div className="mt-12 text-center space-y-4">
+        <h3 className="text-lg font-semibold text-gray-800">Sources des données</h3>
+        <div className="flex flex-wrap justify-center gap-6 text-sm">
+          <a 
+            href="https://www.ademe.fr/" 
+            target="_blank" 
             rel="noopener noreferrer"
+            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
+            ADEME <ExternalLink className="w-3 h-3" />
           </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
+          <a 
+            href="https://www.ipcc.ch/" 
+            target="_blank" 
             rel="noopener noreferrer"
+            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline"
           >
-            Read our docs
+            GIEC <ExternalLink className="w-3 h-3" />
+          </a>
+          <a 
+            href="https://www.carbone4.com/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            Carbone 4 <ExternalLink className="w-3 h-3" />
+          </a>
+          <a 
+            href="https://nosgestesclimat.fr/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            Nos Gestes Climat <ExternalLink className="w-3 h-3" />
           </a>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+        <p className="text-xs text-gray-500 mt-2">
+          Données compilées et adaptées à partir des études officielles
+        </p>
+      </div>
+    </main>
+  )
 }
